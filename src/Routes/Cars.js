@@ -28,7 +28,7 @@ router.post('/add', async (req, res) => {
         if (!check) {
             const save = await car.save()
             try {
-                res.send(save)
+                res.status(201).send(save)
             }
             catch (err) {
                 res.send(err)

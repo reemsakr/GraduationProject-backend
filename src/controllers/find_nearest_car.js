@@ -25,7 +25,7 @@ router.get('/:email', async (req, res) => {
             }
         ])
 
-        res.status(200).send({ success: true, msg: 'car', data: car })
+        res.status(200).send(car)
     }
     catch (err) {
         res.status(400).send(err)

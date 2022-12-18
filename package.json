@@ -19,7 +19,8 @@
     "joi": "^17.7.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.5",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.45.0",
