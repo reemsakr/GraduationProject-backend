@@ -17,7 +17,7 @@ router.get('/:email', async (req, res) => {
                 $geoNear: {
                     near: { type: 'Point', coordinates: [parseFloat(long), parseFloat(lat)] },
                     key: 'location',
-                    maxDistance: 0.5,
+                    maxDistance: 5,
                     distanceField:'dist.calculated',
                     spherical: true
 
