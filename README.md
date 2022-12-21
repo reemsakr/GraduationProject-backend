@@ -68,7 +68,6 @@ You may also use the Postman collection present in the repository for testing.
 
 - [NodeJS](https://nodejs.org/) - The JavaScript runtime
 - [npm](https://npm.com/) - The dependency manager
-- [db-migrate](https://db-migrate.readthedocs.io/en/latest/) - The database migration tool
 - [Express](https://expressjs.com) - The web framework
 - [TypeScript](https://www.typescriptlang.org/) - Types JS extension
 ## Endpoints
