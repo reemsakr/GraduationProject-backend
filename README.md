@@ -48,8 +48,6 @@ PASSWORD=123
 ```
 Now, create the database
 
-
-
 Now, check if Mongo Atlas has the database `gradProject`, if not create it:
 
 
@@ -70,11 +68,3 @@ You may also use the Postman collection present in the repository for testing.
 - [npm](https://npm.com/) - The dependency manager
 - [Express](https://expressjs.com) - The web framework
 - [TypeScript](https://www.typescriptlang.org/) - Types JS extension
-## Endpoints
-
-- See [REQUIREMENTS.md](./REQUIREMENTS.md) file
-
-
-## Database Schema
-
- - See [REQUIREMENTS.md](./REQUIREMENTS.md) file
