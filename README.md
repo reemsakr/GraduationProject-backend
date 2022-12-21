@@ -51,10 +51,6 @@ Now, create the database
 
 ```bash
 
-
-
-
-
 Now, check if Mongo Atlas has the database `gradProject`, if not create it:
 
 
@@ -67,9 +63,6 @@ npm run start
 ```
 
 The application will run on <http://localhost:5000/>.
-## Running the unit tests
-
-
 
 You may also use the Postman collection present in the repository for testing.
 ## Built With
