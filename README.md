@@ -41,8 +41,8 @@ First, create a `.env` file with all the required environment variables:
 PORT=5000
 # Set your database connection information here
 Mongo_DB=gradProject
-POSTGRES_USER=reem
-POSTGRES_PASSWORD=123
+USER=reem
+PASSWORD=123
 # user
 
 ```
