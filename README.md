@@ -49,7 +49,6 @@ PASSWORD=123
 Now, create the database
 
 
-```bash
 
 Now, check if Mongo Atlas has the database `gradProject`, if not create it:
 
