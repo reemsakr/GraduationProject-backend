@@ -8,8 +8,6 @@ ___Table of Contents___
     - [Setup environment](#setup-environment)
   - [Running the application](#running-the-application)
   - [Built With](#built-with)
-  - [Endpoints](#endpoints)
-  - [Database Schema](#database-schema)
 
 
 A  backend API written in NodeJS . This application has APIs for Users, Nearest Cars with Location.
