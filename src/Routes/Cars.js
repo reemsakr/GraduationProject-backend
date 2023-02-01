@@ -73,12 +73,13 @@ router.delete('/:email', async (req, res) => {
 router.patch('/:email', async (req, res) => {
     const email = req.params.email
 
-    carModel.updateOne(
+    const updatedCar=await carModel.updateOne(
         { email: email },
         {
             $set: req.body
         }
     )
+    
     const car = await carModel.findOne({email:email})
     
     const long = car.location.coordinates[0]
