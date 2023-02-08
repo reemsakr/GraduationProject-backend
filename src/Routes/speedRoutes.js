@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const streetModel = require('../Models/Speeds')
+const streetModel = require('../Models/speedModel')
 
 
 router.get('/all', async (req, res) => {
@@ -43,7 +43,7 @@ router.delete('/:streetName', async (req, res) => {
     }
 })
 
-router.patch('/:streetName', async (req, res) => {
+router.put('/:streetName', async (req, res) => {
     const streetName = req.params.streetName
 
     const updatedStreet = await streetModel.updateOne(

@@ -1,9 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const carModel = require('../Models/Cars')
-//const verifyToken = require('./verfyjwt')
-//const Joi = require('@hapi/joi')
-//const bcrypt = require('bcrypt')
+const carModel = require('../Models/carMode')
+
 
 router.get('/all', async (req, res) => {
     const cars = await carModel.find()
@@ -70,9 +68,11 @@ router.delete('/:email', async (req, res) => {
     }
 })
 
-router.patch('/:email', async (req, res) => {
+router.put('/:email', async (req, res) => {
     const email = req.params.email
 
+    
+    // eslint-disable-next-line no-unused-vars
     const updatedCar=await carModel.updateOne(
         { email: email },
         {
@@ -92,7 +92,7 @@ router.patch('/:email', async (req, res) => {
                 $geoNear: {
                     near: { type: 'Point', coordinates: [parseFloat(long), parseFloat(lat)] },
                     key: 'location',
-                    maxDistance: 5,
+                    maxDistance: 1,
                     distanceField:'dist.calculated',
                     spherical: true
 

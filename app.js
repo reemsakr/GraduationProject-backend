@@ -1,10 +1,10 @@
 const express=require('express')
 require('dotenv').config()
 const mongoose = require('mongoose')
-const carRoutes = require('./src/Routes/Cars')
-//const findRoutes=require('./src/controllers/find_nearest_car')
-const authRoutes=require('./src/Routes/authroutes')
-const streetRoutes=require('./src/Routes/streetSpeed')
+const carRoutes = require('./src/Routes/carRoutes')
+
+const authRoutes=require('./src/Routes/authRoutes')
+const streetRoutes=require('./src/Routes/speedRoutes')
 const app=express()
 app.use(express.json())
 
