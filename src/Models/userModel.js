@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose')
 const { isEmail } = require('validator')
 
@@ -29,6 +30,9 @@ const userSchmea = new mongoose.Schema({
         required: [true, 'please enter an password'],
         minlength: [6, 'Minium password length is 6 characters']
     },
+    tokens:[{
+        type:Object
+    }]
 })
 
 const User = mongoose.model('User', userSchmea)

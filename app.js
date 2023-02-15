@@ -3,8 +3,9 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const carRoutes = require('./src/Routes/carRoutes')
 
-const authRoutes=require('./src/Routes/authRoutes')
+const authRoutes=require('./src/Routes/userRoutes')
 const streetRoutes=require('./src/Routes/speedRoutes')
+
 const app=express()
 app.use(express.json())
 
@@ -21,4 +22,7 @@ mongoose.connect(process.env.DB, (err) => {
     if (err) return console.log(err.message)
 
     console.log('Database connected')
+
 })
+
+

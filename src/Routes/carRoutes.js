@@ -1,20 +1,27 @@
 const express = require('express')
 const router = express.Router()
 const carModel = require('../Models/carMode')
-
+const verifyToken=require('../middleWares/verfyTokenMiddleWare')
 
 router.get('/all', async (req, res) => {
+    //await carModel.remove({})
     const cars = await carModel.find()
     try {
-        res.send(cars)
+        res.status(200).json({
+            data:cars
+        })
+        
     }
     catch (err) {
-        res.send(err)
+        res.status(400).json({
+            data:err
+        })
+        
     }
 
 })
 
-router.post('/add', async (req, res) => {
+router.post('/add',verifyToken, async (req, res) => {
 
     const car = new carModel({
         email: req.body.email,
@@ -26,29 +33,39 @@ router.post('/add', async (req, res) => {
         if (!check) {
             const save = await car.save()
             try {
-                res.status(201).send(save)
+                res.status(201).json({
+                    data:save
+                })
+                
             }
             catch (err) {
-                res.send(err)
+                res.status(400).json({
+                    data:err
+                })
             }
         }
         else{
             try {
                 
-                res.status(400).send({
-                    msg:'this email is signed before',
-                    car:check
-
+                res.status(400).json({
+                    data:{
+                        msg:'this email is signed before',
+                        car:check
+                    }
                 })
             }
             catch (err) {
-                res.send(err)
+                res.status(400).json({
+                    data:err
+                })
             }
             
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(400).json({
+            data:err
+        })
     }
 
 })
@@ -56,31 +73,36 @@ router.post('/add', async (req, res) => {
 
 
 
-router.delete('/:email', async (req, res) => {
-    const email = req.params.email
-    const car = await carModel.remove({ email: email })
+router.delete('/:id', async (req, res) => {
+    const id = req.params.id
+    const car = await carModel.remove({ _id: id })
 
     try {
-        res.send(car)
+        res.status(200).json({
+            data:car
+        })
     }
     catch (err) {
-        res.send(err)
+        res.status(400).json({
+            data:err
+        })
     }
 })
 
-router.put('/:email', async (req, res) => {
-    const email = req.params.email
+router.put('/:id',verifyToken, async (req, res) => {
+    const id = req.params.id
 
     
     // eslint-disable-next-line no-unused-vars
     const updatedCar=await carModel.updateOne(
-        { email: email },
+        { _id: id },
         {
             $set: req.body
+
         }
     )
     
-    const car = await carModel.findOne({email:email})
+    const car = await carModel.findOne({_id:id})
     
     const long = car.location.coordinates[0]
     const lat = car.location.coordinates[1]

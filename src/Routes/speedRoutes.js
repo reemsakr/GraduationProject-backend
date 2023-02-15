@@ -1,15 +1,19 @@
 const express = require('express')
 const router = express.Router()
 const streetModel = require('../Models/speedModel')
-
+const verifyToken=require('../middleWares/verfyTokenMiddleWare')
 
 router.get('/all', async (req, res) => {
     const streets = await streetModel.find()
     try {
-        res.send(streets)
+        res.status(200).json({
+            data:streets
+        })
     }
     catch (err) {
-        res.send(err)
+        res.status(400).json({
+            data:err
+        })
     }
 
 })
@@ -21,47 +25,59 @@ router.post('/add', async (req, res) => {
     try {
         const street = await streetModel.create({ streetName, firstLong, firstLat, lastLong, lastLat, maxSpeed })
 
-        res.status(201).send({ success: true, msg: 'street', data: street })
+        res.status(201).json({
+            data:street
+        })
     } catch (err) {
 
-        res.status(400).send(err)
+        res.status(400).json({
+            data:err
+        })
     }
 })
 
 
 
 
-router.delete('/:streetName', async (req, res) => {
-    const streetName = req.params.streetName
-    const street = await streetModel.remove({ streetName: streetName })
+router.delete('/:id', async (req, res) => {
+    const id = req.params.id
+    const street = await streetModel.remove({ _id: id })
 
     try {
-        res.send(street)
+        res.status(200).json({
+            data:street
+        })
     }
     catch (err) {
-        res.send(err)
+        res.status(400).json({
+            data:err
+        })
     }
 })
 
-router.put('/:streetName', async (req, res) => {
-    const streetName = req.params.streetName
+router.put('/:id', async (req, res) => {
+    const id = req.params.id
 
     const updatedStreet = await streetModel.updateOne(
-        { streetName: streetName },
+        { _id: id },
         {
             $set: req.body
         }
     )
     try {
-        res.send(updatedStreet)
+        res.status(200).json({
+            data:updatedStreet
+        })
     }
     catch (err) {
-        res.send(err)
+        res.status(400).json({
+            data:err
+        })
     }
 
 })
 
-router.post('/:checkSpeed', async (req, res) => {
+router.post('/checkSpeed', verifyToken,async (req, res) => {
 
     const long = req.body.long
     const lat = req.body.lat
@@ -82,20 +98,28 @@ router.post('/:checkSpeed', async (req, res) => {
                 
                 if (speed <= streets[i].maxSpeed) {
                     
-                    res.status(200).send('sucess')
+                    res.status(200).json({
+                        data:'sucess'
+                    })
                 }
                 else {
-                    res.status(404).send('this car speed  is max than max speed of this street')
+                    res.status(404).json({
+                        data:'this car speed  is max than max speed of this street'
+                    })
                 }
             }
             else {
-                res.status(416).send('this car is not in the range')
+                res.status(416).json({
+                    data:'this car is not in the range'
+                })
             }
 
         }
     }
     catch (err) {
-        res.send(err)
+        res.status(400).json({
+            data:err
+        })
     }
 
 })
