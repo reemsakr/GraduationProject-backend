@@ -6,8 +6,28 @@ const authContoller=require('../middleWares/authorizeMiddleWare')
 const jwt= require('jsonwebtoken')
 const verifyToken = require('../middleWares/verfyTokenMiddleWare')
 
+router.get('/all', async (req, res) => {
+    //await User.remove({})
+    const users = await User.find()
+    try {
+        res.status(200).json({
+            data:users
+        })
+        
+    }
+    catch (err) {
+        res.status(400).json({
+            data:err
+        })
+        
+    }
+
+})
+
+
+
 router.post('/signup', async (req, res)=> {
-    const { first_name, last_name, email, password } = req.body
+    const { first_name, last_name, email, password ,location} = req.body
     try {
         const salt = await bcrypt.genSalt(10)
         const hashPassword = await bcrypt.hash(password, salt)
@@ -17,23 +37,32 @@ router.post('/signup', async (req, res)=> {
             last_name: last_name,
             email: email,
             password: hashPassword,
+            location:location,
         })
-        user.save()
-        
-        const userInfo={
-                    
-            first_name: user.first_name,
-            last_name: user.last_name,
-            email: user.email,
-            password:user.password
-        }
-
-        res.status(201).json({
-            data:{
-                user:userInfo
+        const check = await User.findOne({ email: user.email })
+        console.log(check)
+        if (!check) {
+            try {
+                const save = await user.save()
+                res.status(201).json({
+                    data:save
+                })
             }
-        })
-    } catch (err) {
+            catch(err)
+            {
+                
+                res.status(400).json({
+                    data:err})
+            }
+        }
+        else {
+            console.log('here')
+            throw Error('dublicated email')
+        }
+            
+    }
+    catch (err) {
+        //console.log('here')
         const errors =authContoller.handleErrores(err)
         res.status(400).json({
             data:errors
@@ -54,30 +83,16 @@ router.post('/login', async (req, res)=> {
             if (auth) {
                 
                 var token = jwt.sign({ id: user._id }, process.env.TOKEN_SECRET, {expiresIn: '1d'})
-                
-
-                let oldTokens=user.tokens||[]
-                
-                if(oldTokens.length)
-                {
-                    oldTokens=oldTokens.filter(t=>{
-                        const timeDiff=(Date.now()-parseInt(t.signedAt))/1000
-                        if(timeDiff<86400)//24*60*60 s
-                        {
-                            return t
-                        }
-
-                    })
-                }
-                
-                await User.findByIdAndUpdate(user._id,{tokens:[...oldTokens,{token,
+                        
+                await User.findByIdAndUpdate(user._id,{tokens:[{token,
                     signedAt:Date.now().toString()}]})
 
                 const userInfo={
                     
                     first_name: user.first_name,
                     last_name: user.last_name,
-                    email: user.email
+                    email: user.email,
+                    location:user.location
         
                 }
                 res.status(200).json({
@@ -111,9 +126,8 @@ router.post('/logout',verifyToken, async (req, res)=> {
         {
             res.status(401).json({data:'Authorization fail !'})
         }
-        const tokens=req.user.tokens
-        const newTokens=tokens.filter(t=>t.token!=token)
-        await User.findByIdAndUpdate(req.user._id,{tokens:newTokens})
+        
+        await User.findByIdAndUpdate(req.user._id,{tokens:[]})
         res.status(200).json(
             {
                 data:'logout successfully'
@@ -131,7 +145,60 @@ router.post('/logout',verifyToken, async (req, res)=> {
 
 
 
+router.put('/', verifyToken,async (req, res) => {
+    
+    const token = req.headers.authorization.split(' ')[1]
+            
+    const decode=jwt.verify(token, process.env.TOKEN_SECRET)
+    
+    const id = decode.id
+    
+    
+    // eslint-disable-next-line no-unused-vars
+    const updatedCar=await User.updateOne(
+        { _id: id },
+        {
+            $set: req.body
 
+        }
+    )
+    const user = await User.findById(id)
+    
+    const long = user.location.coordinates[0]
+    const lat = user.location.coordinates[1]
+    
+
+    try {
+    
+        const users =await User.aggregate([
+            {
+                $geoNear: {
+                    near: { type: 'Point', coordinates: [parseFloat(long), parseFloat(lat)] },
+                    key: 'location',
+                    maxDistance: 1,
+                    distanceField:'dist.calculated',
+                    spherical: true
+
+                }   
+            },
+            {
+                $project : { password : 0, tokens: 0 }
+            }
+        ])
+    
+
+
+        res.status(200).json({
+            data: users
+        })
+    }
+    catch (err) {
+        
+        res.status(400).json({
+            data:err})
+    }
+
+})
 
 
 module.exports=router

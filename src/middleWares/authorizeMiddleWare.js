@@ -1,6 +1,6 @@
 //get signup
 module.exports.handleErrores = (err) => {
-    
+//    console.log('here')    
     let error = { email: '', password: '' }
     // incoorect email
     if (err.message === 'incorrect email') {
@@ -12,8 +12,9 @@ module.exports.handleErrores = (err) => {
         
         error.password = 'wrong password'
     }
-    if (err.code === 11000) {
-        
+    
+    if(err.message==='dublicated email'){
+        //console.log('here')
         error.email = 'that email is already registered'
         return error
     }

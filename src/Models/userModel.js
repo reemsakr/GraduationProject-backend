@@ -2,7 +2,18 @@
 const mongoose = require('mongoose')
 const { isEmail } = require('validator')
 
-//const Joi = require('joi')
+const pointSchema = new mongoose.Schema({
+    type: {
+        type: String,
+        enum: ['Point'],
+        required: true,
+    },
+    coordinates: {
+        type: [Number],
+        required: true,
+    },
+},{ _id : false })
+
 const userSchmea = new mongoose.Schema({
     first_name: {
         type: String,
@@ -30,10 +41,14 @@ const userSchmea = new mongoose.Schema({
         required: [true, 'please enter an password'],
         minlength: [6, 'Minium password length is 6 characters']
     },
+    location: {
+        type: pointSchema,
+        required: true,
+    },
     tokens:[{
         type:Object
     }]
 })
-
+userSchmea.index({ location: '2dsphere' })
 const User = mongoose.model('User', userSchmea)
 module.exports = User

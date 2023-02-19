@@ -1,0 +1,139 @@
+{
+	"info": {
+		"_postman_id": "aae2b5a7-aa78-4b9c-ba63-eceef47c9540",
+		"name": "gradProject",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20893066"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "signUp",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"first_name\":\"Reem\",\r\n    \"last_name\":\"Sakr\",\r\n    \"email\":\"reem060@gmail.com\",\r\n    \"password\":\"123\",\r\n    \"location\":{\r\n         \"type\":\"Point\",\r\n         \"coordinates\":[\r\n             \"30.4150432\",\r\n             \"30.9461439\"\r\n         ]\r\n     }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/Users/signup",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Users",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \r\n    \"email\":\"new1234@gmail.com\",\r\n    \"password\":\"sh1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:5000/Users/login",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"Users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/Users/all",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Users",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjBlZmQ3ODQzMDlmZTQ0YjdhMjBhNyIsImlhdCI6MTY3NjczNDUyMiwiZXhwIjoxNjc2ODIwOTIyfQ.ZW1m26fFLtYSZxgcJMMP8kwpb5dZT-LnMiSog5E40s4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\":\"Reem\",\r\n    \"last_name\":\"Sakr\",\r\n    \"email\":\"reemsakr060@gmail.com\",\r\n    \"password\":\"123\",\r\n    \"location\":{\r\n         \"type\":\"Point\",\r\n         \"coordinates\":[\r\n             \"30.4150432\",\r\n             \"30.9461439\"\r\n         ]\r\n     }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/Users/",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Users",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
