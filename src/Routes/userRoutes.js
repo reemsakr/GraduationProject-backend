@@ -87,18 +87,9 @@ router.post('/login', async (req, res)=> {
                         
                 
 
-                const userInfo={
-                    
-                    first_name: user.first_name,
-                    last_name: user.last_name,
-                    email: user.email,
-                    location:user.location,
-                    emergencyState:user.emergencyState
-        
-                }
+                
                 res.status(200).json({
                     data: {
-                        user:userInfo,
                         token:token
                     }       
                 })

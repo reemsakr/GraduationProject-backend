@@ -71,7 +71,6 @@ changeStream.on('change', async(change) => {
             pusher.trigger(
                 channel,
                 'updated', 
-                
                 users
 
                     
