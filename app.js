@@ -39,7 +39,8 @@ const User = require('./src/Models/userModel')
 //const taskCollection = process.env.DB.collection('User.')
 const changeStream = User.watch()
 changeStream.on('change', (change) => {
-    console.log(change)
+    console.log(change.fullDocumentBeforeChange)
+    console.log(change.updateDescription.updatedFields.emergencyState)
 
     if(change.operationType === 'insert') {
         const task = change.fullDocument
@@ -51,11 +52,15 @@ changeStream.on('change', (change) => {
                 task: task.task,
             }
         ) 
-    } else if(change.operationType === 'delete') {
+    } else if(change.operationType === 'update') {
+        const check=change.updateDescription.updatedFields.emergencyState
+        const last=change.fullDocumentBeforeChange.emergencyState
         pusher.trigger(
             channel,
-            'deleted', 
-            change.documentKey._id
+            'updated', 
+            change.documentKey._id,
+            check
+            
         )
     }
 })

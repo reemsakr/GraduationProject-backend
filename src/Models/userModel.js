@@ -1,4 +1,5 @@
 
+
 const mongoose = require('mongoose')
 const { isEmail } = require('validator')
 
@@ -44,6 +45,10 @@ const userSchmea = new mongoose.Schema({
     location: {
         type: pointSchema,
         required: true,
+    },
+    emergencyState:{
+        type:Boolean,
+        required:true
     }
 })
 userSchmea.index({ location: '2dsphere' })

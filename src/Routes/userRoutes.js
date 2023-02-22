@@ -27,7 +27,7 @@ router.get('/all', async (req, res) => {
 
 
 router.post('/signup', async (req, res)=> {
-    const { first_name, last_name, email, password ,location} = req.body
+    const { first_name, last_name, email, password ,location,emergencyState} = req.body
     try {
         const salt = await bcrypt.genSalt(10)
         const hashPassword = await bcrypt.hash(password, salt)
@@ -38,6 +38,7 @@ router.post('/signup', async (req, res)=> {
             email: email,
             password: hashPassword,
             location:location,
+            emergancyState:emergencyState,
         })
         const check = await User.findOne({ email: user.email })
         
@@ -91,7 +92,8 @@ router.post('/login', async (req, res)=> {
                     first_name: user.first_name,
                     last_name: user.last_name,
                     email: user.email,
-                    location:user.location
+                    location:user.location,
+                    emergencyState:user.emergencyState
         
                 }
                 res.status(200).json({
@@ -174,7 +176,7 @@ router.put('/', verifyToken,async (req, res) => {
                 $geoNear: {
                     near: { type: 'Point', coordinates: [parseFloat(long), parseFloat(lat)] },
                     key: 'location',
-                    maxDistance: 1,
+                    maxDistance: 300,
                     distanceField:'dist.calculated',
                     spherical: true
 
