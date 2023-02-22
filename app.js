@@ -3,7 +3,7 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const authRoutes=require('./src/Routes/userRoutes')
 const streetRoutes=require('./src/Routes/speedRoutes')
-
+const User = require('./src/Models/userModel')
 const app=express()
 app.use(express.json())
 
@@ -27,40 +27,32 @@ mongoose.connect(process.env.DB, (err) => {
 
 const Pusher = require('pusher')
 const pusher = new Pusher({
-    appId      : '1558016',
-    key        : '8f885166fac44cd34323',
-    secret     : '4aba1f8309023e73bc5f',
-    cluster    : 'mt1',
+    appId      : process.env.appId,
+    key        : process.env.key,
+    secret     : process.env.secret,
+    cluster    : process.env.cluster,
     encrypted  : true,
 })
 const channel = 'User'
 
-const User = require('./src/Models/userModel')
-//const taskCollection = process.env.DB.collection('User.')
+
 const changeStream = User.watch()
-changeStream.on('change', (change) => {
+changeStream.on('change', async(change) => {
     
     console.log(change)
 
-    if(change.operationType === 'insert') {
-        const task = change.fullDocument
-        pusher.trigger(
-            channel,
-            'inserted', 
-            {
-                id: task._id,
-                task: task.task,
-            }
-        ) 
-    } else if(change.operationType === 'update') {
-        const check=change.updateDescription.updatedFields.emergencyState
+    if(change.operationType === 'update') {
+        const check=await change.updateDescription.updatedFields.emergencyState
 
         if(check==true){
-            const id=change.documentKey._id
-            const user =  User.findById(id)
+            const id=await change.documentKey._id.valueOf()
+                        
+            const user = await User.findById(id)
+            
+            
             const long = user.location.coordinates[0]
             const lat = user.location.coordinates[1]
-            const users = User.aggregate([
+            const users = await User.aggregate([
                 {
                     $geoNear: {
                         near: { type: 'Point', coordinates: [parseFloat(long), parseFloat(lat)] },
@@ -75,7 +67,7 @@ changeStream.on('change', (change) => {
                     $project : { password : 0, tokens: 0 }
                 }
             ])
-        
+            console.log(users)
             pusher.trigger(
                 channel,
                 'updated', 
@@ -85,6 +77,7 @@ changeStream.on('change', (change) => {
 
                     
             )
+            
             
         }
         
