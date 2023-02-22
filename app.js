@@ -71,8 +71,7 @@ changeStream.on('change', async(change) => {
             pusher.trigger(
                 channel,
                 'updated', 
-                change.documentKey._id,
-                check,
+                
                 users
 
                     
