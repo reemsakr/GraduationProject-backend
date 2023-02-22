@@ -174,15 +174,13 @@ router.put('/', verifyToken,async (req, res) => {
                 }   
             },
             {
-                $project : { password : 0, tokens: 0 }
+                $project : { _id:0 , password : 0, tokens: 0 }
             }
         ])
     
 
 
-        res.status(200).json({
-            data: users
-        })
+        res.status(200).send(users)
     }
     catch (err) {
         
