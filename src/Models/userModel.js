@@ -44,10 +44,7 @@ const userSchmea = new mongoose.Schema({
     location: {
         type: pointSchema,
         required: true,
-    },
-    tokens:[{
-        type:Object
-    }]
+    }
 })
 userSchmea.index({ location: '2dsphere' })
 const User = mongoose.model('User', userSchmea)

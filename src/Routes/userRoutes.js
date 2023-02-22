@@ -40,7 +40,7 @@ router.post('/signup', async (req, res)=> {
             location:location,
         })
         const check = await User.findOne({ email: user.email })
-        console.log(check)
+        
         if (!check) {
             try {
                 const save = await user.save()
@@ -56,13 +56,13 @@ router.post('/signup', async (req, res)=> {
             }
         }
         else {
-            console.log('here')
+            
             throw Error('dublicated email')
         }
             
     }
     catch (err) {
-        //console.log('here')
+        
         const errors =authContoller.handleErrores(err)
         res.status(400).json({
             data:errors
@@ -84,8 +84,7 @@ router.post('/login', async (req, res)=> {
                 
                 var token = jwt.sign({ id: user._id }, process.env.TOKEN_SECRET, {expiresIn: '1d'})
                         
-                await User.findByIdAndUpdate(user._id,{tokens:[{token,
-                    signedAt:Date.now().toString()}]})
+                
 
                 const userInfo={
                     
@@ -115,7 +114,7 @@ router.post('/login', async (req, res)=> {
         })
     }
 })
-
+/*
 
 router.post('/logout',verifyToken, async (req, res)=> {
     try{
@@ -142,7 +141,7 @@ router.post('/logout',verifyToken, async (req, res)=> {
     }
 })
 
-
+/*/
 
 
 router.put('/', verifyToken,async (req, res) => {

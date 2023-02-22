@@ -15,6 +15,9 @@ app.listen(process.env.PORT||5000,()=>{
     console.log('the server is listening in port 5000')
 })
 
+
+
+
 mongoose.connect(process.env.DB, (err) => {
     if (err) return console.log(err.message)
 
@@ -22,4 +25,37 @@ mongoose.connect(process.env.DB, (err) => {
 
 })
 
+const Pusher = require('pusher')
+const pusher = new Pusher({
+    appId      : '1558016',
+    key        : '8f885166fac44cd34323',
+    secret     : '4aba1f8309023e73bc5f',
+    cluster    : 'mt1',
+    encrypted  : true,
+})
+const channel = 'User'
 
+const User = require('./src/Models/userModel')
+//const taskCollection = process.env.DB.collection('User.')
+const changeStream = User.watch()
+changeStream.on('change', (change) => {
+    console.log(change)
+
+    if(change.operationType === 'insert') {
+        const task = change.fullDocument
+        pusher.trigger(
+            channel,
+            'inserted', 
+            {
+                id: task._id,
+                task: task.task,
+            }
+        ) 
+    } else if(change.operationType === 'delete') {
+        pusher.trigger(
+            channel,
+            'deleted', 
+            change.documentKey._id
+        )
+    }
+})
