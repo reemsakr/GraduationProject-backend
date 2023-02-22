@@ -42,7 +42,7 @@ changeStream.on('change', async(change) => {
     console.log(change)
 
     if(change.operationType === 'update') {
-        /*
+        
         const check=await change.updateDescription.updatedFields.emergencyState
 
         if(check==true){
@@ -69,17 +69,17 @@ changeStream.on('change', async(change) => {
                 }
             ])
             console.log(users)
-            /*/
-        pusher.trigger(
-            channel,
-            'updated', 
-            // users
-            'hello'
+            
+            pusher.trigger(
+                channel,
+                'updated', 
+                users
+                
                     
-        )
+            )
             
             
-        //}
+        }
         
     }
 })
