@@ -43,12 +43,11 @@ const userSchmea = new mongoose.Schema({
         minlength: [6, 'Minium password length is 6 characters']
     },
     location: {
-        type: pointSchema,
-        required: true,
+        type: pointSchema
+        
     },
     emergencyState:{
-        type:Boolean,
-        required:true
+        type:Boolean
     }
 })
 userSchmea.index({ location: '2dsphere' })

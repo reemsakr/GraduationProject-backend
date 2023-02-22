@@ -27,7 +27,7 @@ router.get('/all', async (req, res) => {
 
 
 router.post('/signup', async (req, res)=> {
-    const { first_name, last_name, email, password ,location,emergencyState} = req.body
+    const { first_name, last_name, email, password } = req.body
     try {
         const salt = await bcrypt.genSalt(10)
         const hashPassword = await bcrypt.hash(password, salt)
@@ -36,9 +36,7 @@ router.post('/signup', async (req, res)=> {
             first_name: first_name,
             last_name: last_name,
             email: email,
-            password: hashPassword,
-            location:location,
-            emergancyState:emergencyState,
+            password: hashPassword
         })
         const check = await User.findOne({ email: user.email })
         
@@ -137,7 +135,7 @@ router.post('/logout',verifyToken, async (req, res)=> {
 /*/
 
 
-router.put('/', verifyToken,async (req, res) => {
+router.put('', verifyToken,async (req, res) => {
     
     const token = req.headers.authorization.split(' ')[1]
             
