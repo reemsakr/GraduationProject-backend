@@ -39,8 +39,8 @@ const User = require('./src/Models/userModel')
 //const taskCollection = process.env.DB.collection('User.')
 const changeStream = User.watch()
 changeStream.on('change', (change) => {
-    console.log(change.fullDocumentBeforeChange)
-    console.log(change.updateDescription.updatedFields.emergencyState)
+    
+    console.log(change)
 
     if(change.operationType === 'insert') {
         const task = change.fullDocument
@@ -54,13 +54,39 @@ changeStream.on('change', (change) => {
         ) 
     } else if(change.operationType === 'update') {
         const check=change.updateDescription.updatedFields.emergencyState
-        const last=change.fullDocumentBeforeChange.emergencyState
-        pusher.trigger(
-            channel,
-            'updated', 
-            change.documentKey._id,
-            check
+
+        if(check==true){
+            const id=change.documentKey._id
+            const user =  User.findById(id)
+            const long = user.location.coordinates[0]
+            const lat = user.location.coordinates[1]
+            const users = User.aggregate([
+                {
+                    $geoNear: {
+                        near: { type: 'Point', coordinates: [parseFloat(long), parseFloat(lat)] },
+                        key: 'location',
+                        maxDistance: 10000,
+                        distanceField:'dist.calculated',
+                        spherical: true
+    
+                    }   
+                },
+                {
+                    $project : { password : 0, tokens: 0 }
+                }
+            ])
+        
+            pusher.trigger(
+                channel,
+                'updated', 
+                change.documentKey._id,
+                check,
+                users
+
+                    
+            )
             
-        )
+        }
+        
     }
 })
