@@ -178,7 +178,9 @@ router.put('', verifyToken,async (req, res) => {
     
 
 
-        res.status(200).send(users)
+        res.status(200).json({
+            status:'success'
+        })
     }
     catch (err) {
         
