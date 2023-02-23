@@ -135,14 +135,13 @@ router.post('/logout',verifyToken, async (req, res)=> {
 /*/
 
 
-router.put('',async (req, res) => {
+router.put('', verifyToken,async (req, res) => {
     
-    //const token = req.headers.authorization.split(' ')[1]
+    const token = req.headers.authorization.split(' ')[1]
             
-    //const decode=jwt.verify(token, process.env.TOKEN_SECRET)
+    const decode=jwt.verify(token, process.env.TOKEN_SECRET)
     
-    const id ='63f67d75dd38aa51d717e3bc' 
-    //decode.id
+    const id = decode.id
     
     
     // eslint-disable-next-line no-unused-vars
