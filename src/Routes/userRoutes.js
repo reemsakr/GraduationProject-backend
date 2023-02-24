@@ -172,7 +172,7 @@ router.put('', verifyToken,async (req, res) => {
                 }   
             },
             {
-                $project : { _id:0 , password : 0, tokens: 0 }
+                $project : { _id:0 , password : 0}
             }
         ])
     
