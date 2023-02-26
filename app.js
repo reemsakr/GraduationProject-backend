@@ -65,7 +65,7 @@ changeStream.on('change', async(change) => {
                     }   
                 },
                 {
-                    $project : {_id:0, password : 0 }
+                    $project : { password : 0 }
                 }
             ])
             console.log(users)
