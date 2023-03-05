@@ -3,13 +3,14 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const authRoutes=require('./src/Routes/userRoutes')
 const streetRoutes=require('./src/Routes/speedRoutes')
+const bumpRoutes=require('./src/Routes/bumpRoutes')
 const User = require('./src/Models/userModel')
 const app=express()
 app.use(express.json())
 
 
 app.use('/streetSpeed', streetRoutes)
-
+app.use('/Bump', bumpRoutes)
 app.use('/Users',authRoutes)
 app.listen(process.env.PORT||5000,()=>{
     console.log('the server is listening in port 5000')
