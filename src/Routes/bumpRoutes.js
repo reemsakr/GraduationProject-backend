@@ -41,5 +41,33 @@ router.post('/add', verifyToken,async (req, res) => {
     }
 })
 
+router.post('/checkBumps', verifyToken,async (req, res) => {
+
+    const { location} = req.body
+    const long = location.coordinates[0]
+    const lat = location.coordinates[1]
+    try {
+        const Bumps =await Bump.aggregate([
+            {
+                $geoNear: {
+                    near: { type: 'Point', coordinates: [parseFloat(long), parseFloat(lat)] },
+                    key: 'location',
+                    maxDistance: 300,
+                    distanceField:'dist.calculated',
+                    spherical: true
+
+                }   
+            }
+        ])
+        res.status(200).send(Bumps)
+    } catch (err) {
+
+        res.status(400).json({
+            data:err
+        })
+    }
+})
+
+
 
 module.exports=router

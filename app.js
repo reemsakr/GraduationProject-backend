@@ -40,7 +40,6 @@ const channel = 'User'
 const changeStream = User.watch()
 changeStream.on('change', async(change) => {
     
-    console.log(change)
 
     if(change.operationType === 'update') {
         
