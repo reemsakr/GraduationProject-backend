@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  mongo_db:
+    container_name: db_container
+    image: reemsakr/mongo
+    restart: always
+    volumes:
+    - mongo_db:/data/db
+
+
+  api:
+    build: .
+    image: reemsakr/api
+    container_name: api_container
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/app
+      - /app/node_modules  
+    environment:
+      PORT: 5000
+      DB: 'mongodb+srv://reem:123@cluster0.l0ktfho.mongodb.net/gradProject?retryWrites=true&w=majority'
+      TOKEN_SECRET: 'my_secret_key'
+      appId: '1558016'
+      key: '8f885166fac44cd34323'
+      secret: '4aba1f8309023e73bc5f'
+      cluster: 'mt1' 
+    depends_on:
+      - mongo_db  
+    
+
+volumes:
+  mongo_db : {}
+
+
+
