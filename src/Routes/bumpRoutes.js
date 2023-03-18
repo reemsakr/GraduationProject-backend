@@ -102,6 +102,12 @@ router.put('/', verifyToken,async (req, res) => {
     
         const id = req.body.bumpId  
         const bump = await Bump.findById(id)
+        if(!bump)
+        {
+            res.status(402).json({
+                'data':'Not Found'
+            })
+        }
         const flag=req.body.flag
         if(flag=='true')
         {
