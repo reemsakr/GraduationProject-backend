@@ -48,6 +48,14 @@ const userSchmea = new mongoose.Schema({
     },
     emergencyState:{
         type:Boolean
+    },
+    nearestCarDist:{
+        type:Number,
+        default:300
+    },
+    nearestHelpDist:{
+        type:Number,
+        default:10000
     }
 })
 userSchmea.index({ location: '2dsphere' })

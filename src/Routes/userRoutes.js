@@ -6,6 +6,27 @@ const authContoller=require('../middleWares/authorizeMiddleWare')
 const jwt= require('jsonwebtoken')
 const verifyToken = require('../middleWares/verfyTokenMiddleWare')
 
+
+router.delete('/', async (req, res) => {
+    await User.remove({})
+    
+    try {
+        res.status(200).json({
+            data:'success'
+        })
+        
+    }
+    catch (err) {
+        res.status(400).json({
+            data:err
+        })
+        
+    }
+
+})
+
+
+
 router.get('/all', async (req, res) => {
     //await User.remove({})
     const users = await User.find()
@@ -156,7 +177,7 @@ router.put('', verifyToken,async (req, res) => {
     
     const long = user.location.coordinates[0]
     const lat = user.location.coordinates[1]
-    
+    const dist=user.nearestCarDist
 
     try {
     
@@ -165,7 +186,7 @@ router.put('', verifyToken,async (req, res) => {
                 $geoNear: {
                     near: { type: 'Point', coordinates: [parseFloat(long), parseFloat(lat)] },
                     key: 'location',
-                    maxDistance: 300,
+                    maxDistance: dist,
                     distanceField:'dist.calculated',
                     spherical: true
 
@@ -187,6 +208,39 @@ router.put('', verifyToken,async (req, res) => {
     }
 
 })
+
+
+router.put('/Dist', verifyToken,async (req, res) => {
+    try{
+        const token = req.headers.authorization.split(' ')[1]
+            
+        const decode=jwt.verify(token, process.env.TOKEN_SECRET)
+    
+        const id = decode.id
+    
+    
+        // eslint-disable-next-line no-unused-vars
+        const updatedCar=await User.updateOne(
+            { _id: id },
+            {
+                $set: req.body
+
+            }
+        )
+
+        res.status(200).json({
+            data:'success'
+        })
+    
+    }
+    catch (err) {
+        
+        res.status(400).json({
+            data:err})
+    }
+
+})
+
 
 
 module.exports=router

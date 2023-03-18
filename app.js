@@ -60,12 +60,13 @@ changeStream.on('change', async(change) => {
             
             const long = user.location.coordinates[0]
             const lat = user.location.coordinates[1]
+            const dist=user.nearestHelpDist
             const users = await User.aggregate([
                 {
                     $geoNear: {
                         near: { type: 'Point', coordinates: [parseFloat(long), parseFloat(lat)] },
                         key: 'location',
-                        maxDistance: 10000,
+                        maxDistance: dist,
                         distanceField:'dist.calculated',
                         spherical: true
     
