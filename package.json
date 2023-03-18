@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "start": "nodemon app.js",
-    "dev":"nodemon -L app.js"
+    "dev": "nodemon -L app.js"
   },
   "keywords": [],
   "author": "Reem",
@@ -24,6 +24,7 @@
     "nearest-roads": "^1.1.0",
     "nodemon": "^2.0.20",
     "pusher": "^5.1.2",
+    "redis": "^4.6.5",
     "validator": "^13.7.0"
   },
   "devDependencies": {
