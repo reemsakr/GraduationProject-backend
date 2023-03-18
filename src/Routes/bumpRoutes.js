@@ -41,7 +41,7 @@ router.post('/add', verifyToken,async (req, res) => {
     }
 })
 const redis=require('redis')
-const redisUrl='redis://0.0.0.0:6379'
+const redisUrl='redis://red-c6na6rjru51t7lilgs3g:6379'
 const client=redis.createClient(redisUrl)
 
 client.connect()
@@ -59,7 +59,7 @@ router.post('/checkBumps', verifyToken,async (req, res) => {
     try {
         
         const cachedBumpm=await client.get(JSON.stringify(location))
-        console.log('here')
+        
         if(cachedBumpm)
         {
             
