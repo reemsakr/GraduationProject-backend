@@ -41,7 +41,7 @@ router.post('/add', verifyToken,async (req, res) => {
     }
 })
 const redis=require('redis')
-const redisUrl='redis://127.0.0.1:6379'
+const redisUrl='redis://0.0.0.0:6379'
 const client=redis.createClient(redisUrl)
 
 client.connect()
@@ -59,32 +59,35 @@ router.post('/checkBumps', verifyToken,async (req, res) => {
     try {
         
         const cachedBumpm=await client.get(JSON.stringify(location))
-        
+        console.log('here')
         if(cachedBumpm)
         {
             
-            return res.status(200).send(
-                (JSON.parse(cachedBumpm)).Bumps
-            )}
-        
-        const Bumps =await Bump.aggregate([
-            {
-                $geoNear: {
-                    near: { type: 'Point', coordinates: [parseFloat(long), parseFloat(lat)] },
-                    key: 'location',
-                    maxDistance: 300,
-                    distanceField:'dist.calculated',
-                    spherical: true
-
-                }   
-            }
-        ])
-        const  result={
-            'Bumps':Bumps
+            res.status(200).send(
+                (JSON.parse(cachedBumpm)).Bumps)
         }
-        client.set(JSON.stringify(location),JSON.stringify(result))
-        client.expire(JSON.stringify(location),60*60*24)
-        res.status(200).send(result.Bumps)
+        else 
+        {
+            const Bumps =await Bump.aggregate([
+                {
+                    $geoNear: {
+                        near: { type: 'Point', coordinates: [parseFloat(long), parseFloat(lat)] },
+                        key: 'location',
+                        maxDistance: 300,
+                        distanceField:'dist.calculated',
+                        spherical: true
+    
+                    }   
+                }
+            ])
+            const  result={
+                'Bumps':Bumps
+            }
+            client.set(JSON.stringify(location),JSON.stringify(result))
+            client.expire(JSON.stringify(location),60*60*24)
+            res.status(200).send(result.Bumps)
+        }
+        
     } catch (err) {
 
         res.status(400).json({
