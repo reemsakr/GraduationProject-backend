@@ -1,6 +1,7 @@
 const {Router} = require('express')
 const router=Router()
 const jwt= require('jsonwebtoken')
+const redis=require('redis')
 const Bump = require('../Models/bumpModel')
 
 const verifyToken = require('../middleWares/verfyTokenMiddleWare')
@@ -40,9 +41,9 @@ router.post('/add', verifyToken,async (req, res) => {
         })
     }
 })
-const redis=require('redis')
-const redisUrl='redis://red-c6na6rjru51t7lilgs3g:6379'
-const client=redis.createClient(redisUrl)
+
+
+const client=redis.createClient(process.env.REDISURL)
 
 client.connect()
 client.on('connect', function() {
