@@ -43,8 +43,11 @@ router.post('/add', verifyToken,async (req, res) => {
 })
 
 
-const client=redis.createClient(process.env.REDISURL)
-
+//const client=redis.createClient(process.env.REDISURL)
+const client = redis.createClient({
+    host: 'redis-15412.c226.eu-west-1-3.ec2.cloud.redislabs.com',
+    port: 15412
+})
 client.connect()
 client.on('connect', function() {
     console.log('redis Connected!')
