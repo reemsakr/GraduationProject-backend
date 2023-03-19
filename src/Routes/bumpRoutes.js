@@ -48,11 +48,23 @@ router.post('/add', verifyToken,async (req, res) => {
 //     url: `redis://${process.env.REDIS_PASSWORD}@${process.env.REDIS_URI}:${process.env.REDIS_PORT}`
 // })
 //const client = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_URI).on('error', err => console.error('FUCK', err))
-const client = redis.createClient(
-    process.env.REDIS_PORT,
-    process.env.REDIS_URI
-)
-client.auth(process.env.REDIS_PASSWORD)
+
+// const client = redis.createClient(
+//     process.env.REDIS_PORT,
+//     process.env.REDIS_URI
+// )
+// client.auth(process.env.REDIS_PASSWORD)
+
+const client = redis.createClient({
+    socket: {
+        host: process.env.REDIS_URI,
+        port: process.env.REDIS_PORT
+    },
+    password: process.env.REDIS_PASSWORD
+})
+client.on('error', err => {
+    console.log('Error ' + err)
+})
 client.connect()
 client.on('connect', function() {
     console.log('redis Connected!')
