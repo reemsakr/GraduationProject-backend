@@ -43,18 +43,6 @@ router.post('/add', verifyToken,async (req, res) => {
 })
 
 
-//const client=redis.createClient(process.env.REDISURL)
-// const client = redis.createClient({
-//     url: `redis://${process.env.REDIS_PASSWORD}@${process.env.REDIS_URI}:${process.env.REDIS_PORT}`
-// })
-//const client = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_URI).on('error', err => console.error('FUCK', err))
-
-// const client = redis.createClient(
-//     process.env.REDIS_PORT,
-//     process.env.REDIS_URI
-// )
-// client.auth(process.env.REDIS_PASSWORD)
-
 const client = redis.createClient({
     socket: {
         host: process.env.REDIS_URI,
@@ -94,7 +82,7 @@ router.post('/checkBumps', verifyToken,async (req, res) => {
                     $geoNear: {
                         near: { type: 'Point', coordinates: [parseFloat(long), parseFloat(lat)] },
                         key: 'location',
-                        maxDistance: 300,
+                        maxDistance: 10000,
                         distanceField:'dist.calculated',
                         spherical: true
     

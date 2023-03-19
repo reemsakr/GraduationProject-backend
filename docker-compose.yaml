@@ -7,6 +7,12 @@ services:
     volumes:
     - mongo_db:/data/db
 
+  redis:
+    image: redis:6.2-alpine
+    container_name: redis_container
+    restart: unless-stopped
+    expose:
+      - 15412
 
   api:
     build: .
@@ -25,8 +31,12 @@ services:
       key: '8f885166fac44cd34323'
       secret: '4aba1f8309023e73bc5f'
       cluster: 'mt1' 
+      REDIS_URI=: redis-15412.c226.eu-west-1-3.ec2.cloud.redislabs.com'
+      REDIS_PASSWORD: 'm3exszZ2CWpD84ZGwX1x1Oh3ZmeXbzUg'
+      REDIS_PORT: '15412'
     depends_on:
       - mongo_db  
+      - redis
     
 
 volumes:
