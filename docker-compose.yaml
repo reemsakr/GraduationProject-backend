@@ -1,19 +1,23 @@
 version: '3.8'
 services:
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    ports:
+      - '15412:8001'
+    volumes:
+      - C:\Users\reems\AppData\Local\Programs\redisinsight:/db
+    environment:
+      REDIS_URI: 'redis-15412.c226.eu-west-1-3.ec2.cloud.redislabs.com'
+      REDIS_PASSWORD: 'm3exszZ2CWpD84ZGwX1x1Oh3ZmeXbzUg'
+      REDIS_PORT: '15412'
   mongo_db:
     container_name: db_container
     image: reemsakr/mongo
     restart: always
     volumes:
-    - mongo_db:/data/db
-
-  redis:
-    image: redis:6.2-alpine
-    container_name: redis_container
-    restart: unless-stopped
-    expose:
-      - 15412
-
+      - mongo_db:/data/db
+    depends_on:
+      - redisinsight
   api:
     build: .
     image: reemsakr/api
@@ -31,16 +35,17 @@ services:
       key: '8f885166fac44cd34323'
       secret: '4aba1f8309023e73bc5f'
       cluster: 'mt1' 
-      REDIS_URI=: redis-15412.c226.eu-west-1-3.ec2.cloud.redislabs.com'
+      REDIS_URI: 'redis-15412.c226.eu-west-1-3.ec2.cloud.redislabs.com'
       REDIS_PASSWORD: 'm3exszZ2CWpD84ZGwX1x1Oh3ZmeXbzUg'
       REDIS_PORT: '15412'
     depends_on:
+      - redisinsight
       - mongo_db  
-      - redis
-    
 
+      
+  
+  
 volumes:
   mongo_db : {}
-
-
+  
 

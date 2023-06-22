@@ -1,3 +1,5 @@
+//"api-dns.uaenorth.azurecontainer.io"
+
 const express=require('express')
 require('dotenv').config()
 const mongoose = require('mongoose')
@@ -7,31 +9,18 @@ const bumpRoutes=require('./src/Routes/bumpRoutes')
 const User = require('./src/Models/userModel')
 const app=express()
 app.use(express.json())
-
-
-
-
-
-
-
-
 app.use('/streetSpeed', streetRoutes)
 app.use('/Bump', bumpRoutes)
 app.use('/Users',authRoutes)
-
 app.listen(process.env.PORT||5000,()=>{
     console.log('the server is listening in port 5000...')
 })
-
-
-
 mongoose.connect(process.env.DB, (err) => {
     if (err) return console.log(err.message)
 
     console.log('Database connected')
 
 })
-
 const Pusher = require('pusher')
 const pusher = new Pusher({
     appId      : process.env.appId,
@@ -41,8 +30,6 @@ const pusher = new Pusher({
     encrypted  : true,
 })
 const channel = 'User'
-
-
 const changeStream = User.watch()
 changeStream.on('change', async(change) => {
     

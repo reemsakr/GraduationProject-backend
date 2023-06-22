@@ -22,6 +22,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.5",
     "nearest-roads": "^1.1.0",
+    "node-redis": "^0.1.7",
     "nodemon": "^2.0.20",
     "pusher": "^5.1.2",
     "redis": "^4.6.5",

@@ -3,7 +3,7 @@ const router = express.Router()
 const streetModel = require('../Models/speedModel')
 const verifyToken=require('../middleWares/verfyTokenMiddleWare')
 
-router.get('/all', async (req, res) => {
+router.get('/', async (req, res) => {
     const streets = await streetModel.find()
     try {
         res.status(200).json({
@@ -108,13 +108,12 @@ router.post('/checkSpeed', verifyToken,async (req, res) => {
                     })
                 }
             }
-            else {
-                res.status(416).json({
-                    data:'this car is not in the range'
-                })
-            }
+            
 
         }
+        res.status(416).json({
+            data:'this car is not in the range'
+        })
     }
     catch (err) {
         res.status(400).json({
