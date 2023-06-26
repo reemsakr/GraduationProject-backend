@@ -38,10 +38,18 @@ First, create a `.env` file with all the required environment variables:
 # .env
 PORT=5000
 # Set your database connection information here
-Mongo_DB=gradProject
-USER=reem
-PASSWORD=123
+DB='mongodb+srv://reem:123@cluster0.l0ktfho.mongodb.net/gradProject?retryWrites=true&w=majority'
 # user
+TOKEN_SECRET='my_secret_key'
+#pusher
+appId='1558016'
+key='8f885166fac44cd34323'
+secret='4aba1f8309023e73bc5f'
+cluster='mt1'
+#redis
+REDIS_URI='redis-15412.c226.eu-west-1-3.ec2.cloud.redislabs.com'
+REDIS_PASSWORD='m3exszZ2CWpD84ZGwX1x1Oh3ZmeXbzUg'
+REDIS_PORT='15412'
 
 ```
 Now, create the database
