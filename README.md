@@ -66,7 +66,7 @@ You may also use the Postman collection present in the repository for testing.
 - [npm](https://npm.com/) - The dependency manager
 - [Express](https://expressjs.com) - The web framework
 - [TypeScript](https://www.typescriptlang.org/) - Types JS extension
-- [Redis](https://redis.io/) -  caching data
-- [Pusher](https://pusher.com/) - webSoket tool
-- [MongoDB](https://www.mongodb.com/) - database platform
+- [Redis](https://redis.io/) -  Caching data
+- [Pusher](https://pusher.com/) - WebSoket tool
+- [MongoDB](https://www.mongodb.com/) - Database platform
 
