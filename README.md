@@ -10,10 +10,10 @@ ___Table of Contents___
   - [Built With](#built-with)
 
 
-A  backend API written in NodeJS . This application has APIs for Users, Nearest Cars with Location.
+A  backend API is written in NodeJS. This application has APIs for Users, Nearest Cars with Location, Bumps, and Street Speed.
 ## Getting Started
 
-TThese instructions will get you a copy of the project up and running on your local machine for development and testing
+These instructions will get you a copy of the project up and running on your local machine for development and testing
 purposes.
 ### Prerequisites
 
@@ -51,7 +51,7 @@ Now, check if Mongo Atlas has the database `gradProject`, if not create it:
 
 ## Running the application
 
-Use the following command to run the application in using node:
+Use the following command to run the application using node:
 
 ```bash
 npm run start
