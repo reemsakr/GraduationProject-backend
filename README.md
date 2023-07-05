@@ -82,3 +82,7 @@ You may also use the Postman collection present in the repository for testing.
 ## Endpoints
 
 - See [REQUIREMENTS.md](./REQUIREMENTS.md) file
+
+## Database Schema
+
+ - See [REQUIREMENTS.md](./REQUIREMENTS.md) file
