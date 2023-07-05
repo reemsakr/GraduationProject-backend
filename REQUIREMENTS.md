@@ -1263,7 +1263,7 @@ type user ={
     last_name:string;
     email:string
     password:string;
-    location:pointScema;
+    location:point;
     emergencyState:Boolean;
     nearestCarDist:Number;
     nearestHelpDist:Number;
@@ -1273,7 +1273,7 @@ type user ={
 #### Bumps
 ```typescript
 type bump ={
-location:PointScema;
+location:PointSchema;
 feedbackCounter:Number;
 }
 ```
