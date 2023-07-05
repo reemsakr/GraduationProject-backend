@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const streetModel = require('../Models/speedModel')
+const streetModel = require('../Models/streetSpeedModel')
 const verifyToken=require('../middleWares/verfyTokenMiddleWare')
 
 router.get('/', async (req, res) => {
