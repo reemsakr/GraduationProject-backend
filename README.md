@@ -78,3 +78,7 @@ You may also use the Postman collection present in the repository for testing.
 - [Pusher](https://pusher.com/) - WebSoket tool
 - [MongoDB](https://www.mongodb.com/) - Database platform
 
+
+## Endpoints
+
+- See [REQUIREMENTS.md](./REQUIREMENTS.md) file
