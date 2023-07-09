@@ -108,9 +108,7 @@ router.post('/login', async (req, res)=> {
 
                 
                 res.status(200).json({
-                    data: {
-                        token:token
-                    }       
+                    data:token          
                 })
             }
             else  throw Error('incorrect password')
@@ -121,8 +119,12 @@ router.post('/login', async (req, res)=> {
         
     } catch (err) {
         const error = authContoller.handleErrores(err)
-        res.status(400).json({ 
-            data:error 
+        if(error.password=='')
+            res.status(400).json({ 
+                data:error.email 
+            })
+        else res.status(400).json({ 
+            data:error.password 
         })
     }
 })
