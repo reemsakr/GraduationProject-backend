@@ -97,9 +97,13 @@ router.post('/checkSpeed', verifyToken,async (req, res) => {
                     lat >= streets[i].lastLat))) {
                 
                 if (speed <= streets[i].maxSpeed) {
-                    
-                    res.status(200).json({
-                        data:'sucess'
+                    const dis=streets[i].maxSpeed-speed 
+                    if(dis>10)
+                        res.status(200).json({
+                            data:'sucess'
+                        })
+                    else res.json({
+                        data:'Be Careful'
                     })
                 }
                 else {
