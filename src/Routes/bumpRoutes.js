@@ -109,7 +109,7 @@ router.put('/', verifyToken,async (req, res) => {
             )
         }
         else{
-            if(bump.feedbackCounter==3)
+            if(bump.feedbackCounter<=3)
             {
                 bump.deleteOne({_id:id})
             }
