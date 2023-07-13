@@ -97,6 +97,9 @@ router.put('/', verifyToken,async (req, res) => {
         const flag=req.body.flag
         if(flag=='true')
         {
+
+            
+            
             // eslint-disable-next-line no-unused-vars
             const updatedBump=await Bump.updateOne(
                 { _id: id },
@@ -106,16 +109,20 @@ router.put('/', verifyToken,async (req, res) => {
             )
         }
         else{
-            await Bump.updateOne(
-                { _id: id },
-                {
-                    $inc: {feedbackCounter:-1}
-                }
-            )
-            if(bump.feedbackCounter==2)
+            if(bump.feedbackCounter==3)
             {
                 bump.deleteOne({_id:id})
             }
+            else{
+                await Bump.updateOne(
+                    { _id: id },
+                    {
+                        $inc: {feedbackCounter:-1}
+                    }
+                )
+            }
+            
+            
         }
         res.status(200).json({
             data:'success'
