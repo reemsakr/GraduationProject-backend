@@ -95,7 +95,7 @@ router.put('/', verifyToken,async (req, res) => {
             })
         }
         const flag=req.body.flag
-        if(flag=='true')
+        if(flag==true)
         {
 
             
